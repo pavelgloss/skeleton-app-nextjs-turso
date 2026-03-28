@@ -1,46 +1,46 @@
-# CLAUDE.md - AI Agent Instructions
+# CLAUDE.md - Pokyny pro AI agenta
 
-## Project
+## Projekt
 
-skeleton-app - Next.js 16 skeleton template with Clerk auth, Turso DB, OpenAI, and Resend.
+skeleton-app - Next.js 16 skeleton s Clerk auth, Turso DB, OpenAI a Resend.
 
-## Commands
+## Příkazy
 
-- `pnpm dev` - start dev server (Turbopack)
-- `pnpm build` - production build
+- `pnpm dev` - spustí vývojový server s Turbopackem
+- `pnpm build` - produkční build
 - `pnpm lint` - ESLint
-- `pnpm format` - Prettier (write)
-- `pnpm test` - Vitest unit tests
-- `pnpm test:e2e` - Playwright E2E
-- `pnpm db:push` - push schema to database
-- `pnpm db:migrate` - run migrations
-- `pnpm smoke` - post-deploy health check
+- `pnpm format` - Prettier zápis
+- `pnpm test` - Vitest unit testy
+- `pnpm test:e2e` - Playwright E2E testy
+- `pnpm db:push` - push schématu do DB
+- `pnpm db:migrate` - spuštění migrací
+- `pnpm smoke` - rychlá kontrola po deployi
 
-## Architecture
+## Architektura
 
-- App Router in `src/app/`
-- API routes in `src/app/api/` and they should use `apiHandler` from `src/lib/api-handler.ts`
-- Request protection lives in `src/proxy.ts` because Next.js 16 renamed `middleware.ts` to `proxy.ts`
-- Database uses Turso/libSQL through Drizzle ORM with schema in `src/db/schema.ts`
-- Auth uses Clerk with Google + Facebook only, without email/password
-- Email uses Resend with templates in `src/emails/`
-- Logging uses `pino` through `src/lib/logger.ts`
-- Environment validation lives in `src/lib/env.ts` without Zod
+- App Router je v `src/app/`
+- API route jsou v `src/app/api/` a mají používat `apiHandler` z `src/lib/api-handler.ts`
+- Ochrana route je v `src/proxy.ts`, protože Next.js 16 přejmenoval `middleware.ts` na `proxy.ts`
+- Databáze používá Turso/libSQL přes Drizzle ORM, schéma je v `src/db/schema.ts`
+- Auth používá Clerk s Google + Facebook only, bez email/password
+- Email používá Resend a šablony v `src/emails/`
+- Logování používá `pino` přes `src/lib/logger.ts`
+- Validace env proměnných je v `src/lib/env.ts` bez Zodu
 
-## Conventions
+## Konvence
 
-- TypeScript strict mode, no `any`
-- Use `@/` path alias for imports
-- Keep new DB tables in `src/db/schema.ts`
-- Keep new shared utilities in `src/lib/`
-- Keep new React components in `src/components/`
-- Keep unit tests in `tests/unit/` and E2E tests in `tests/e2e/`
-- Run `pnpm lint` and `pnpm test` before committing
+- TypeScript strict mode, žádné `any`
+- Používej import alias `@/`
+- Nové DB tabulky přidávej do `src/db/schema.ts`
+- Nové sdílené utility dávej do `src/lib/`
+- Nové React komponenty dávej do `src/components/`
+- Unit testy patří do `tests/unit/`, E2E do `tests/e2e/`
+- Před commitem spusť `pnpm lint` a `pnpm test`
 
-## Do NOT
+## Nedělej
 
-- Add Zod to this project
-- Add email/password authentication
-- Use `console.log` or `console.error`
-- Create API routes without `apiHandler`
-- Bypass type safety with `any` or double-casts
+- Nepřidávej Zod
+- Nepřidávej email/password autentizaci
+- Nepoužívej logování přes `console`
+- Nevytvářej API route bez `apiHandler`
+- Neobcházej typovou bezpečnost přes `any` nebo dvojité casty

@@ -1,29 +1,29 @@
-# AGENTS.md - Agent Workflow Rules
+# AGENTS.md - Pravidla workflow pro agenty
 
-## Task Execution
+## Postup práce
 
-1. Read `CLAUDE.md` first for project context.
-2. Before making changes, run `pnpm build` to verify current state when feasible.
-3. After changes, run `pnpm lint` and `pnpm test`.
-4. If adding a new API route, use `apiHandler`.
-5. If adding or changing DB tables, update `src/db/schema.ts` and run `pnpm db:push`.
+1. Nejdřív si přečti `CLAUDE.md`.
+2. Před větší změnou si ověř aktuální stav přes `pnpm build`, pokud je to rozumné.
+3. Po změnách spusť `pnpm lint` a `pnpm test`.
+4. Pokud přidáváš novou API route, použij `apiHandler`.
+5. Pokud měníš DB tabulky, uprav `src/db/schema.ts` a spusť `pnpm db:push`.
 
-## File Creation Rules
+## Pravidla pro soubory
 
-- New pages go in `src/app/`
-- New API routes go in `src/app/api/{name}/route.ts`
-- Route protection belongs in `src/proxy.ts`
-- New shared utilities go in `src/lib/`
-- New React components go in `src/components/`
-- New email templates go in `src/emails/`
-- New tests go in `tests/unit/` or `tests/e2e/`
+- Nové stránky patří do `src/app/`
+- Nové API route patří do `src/app/api/{name}/route.ts`
+- Ochrana route patří do `src/proxy.ts`
+- Sdílené utility patří do `src/lib/`
+- React komponenty patří do `src/components/`
+- Email šablony patří do `src/emails/`
+- Testy patří do `tests/unit/` nebo `tests/e2e/`
 
-## PR Checklist
+## PR checklist
 
-- [ ] `pnpm lint` passes
-- [ ] `pnpm format:check` passes
-- [ ] `pnpm test` passes
-- [ ] `pnpm build` passes
-- [ ] No new `console.log` or `console.error`
-- [ ] No `any` types
-- [ ] API routes use `apiHandler`
+- [ ] `pnpm lint` prochází
+- [ ] `pnpm format:check` prochází
+- [ ] `pnpm test` prochází
+- [ ] `pnpm build` prochází
+- [ ] Nejsou přidané nové logy přes `console`
+- [ ] Nejsou přidané `any` typy
+- [ ] API route používají `apiHandler`
