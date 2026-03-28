@@ -1,0 +1,1 @@
+Přečti agent-instruction.md a skeleton-app-spec.md, pak implementuj celý projekt.
