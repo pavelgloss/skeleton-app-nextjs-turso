@@ -14,6 +14,8 @@ Při implementaci podle `skeleton-app-spec.md` se ukázaly dvě praktické odchy
 4. `shadcn add` v aktuální CLI negeneruje kompletní inicializační scaffold (`src/lib/utils.ts`) a nedoplnil všechny přímé dependency, které vygenerované komponenty importují.
 5. Next.js 16 přejmenoval `middleware.ts` na `proxy.ts`.
 6. Clerk 7 už nepodporuje prop `afterSignOutUrl` na komponentě `UserButton`.
+7. `drizzle-kit` a `tsx` skripty nenačítají automaticky `.env.local`, takže samotná specifikace by neumožnila spouštět `db:push` a `db:migrate` bez ručního exportu proměnných.
+8. Specifikace doporučuje `console.log` v `src/db/migrate.ts`, ale finální checklist současně zakazuje `console.log` v celém projektu.
 
 ## Rozhodnutí
 
@@ -23,6 +25,8 @@ Při implementaci podle `skeleton-app-spec.md` se ukázaly dvě praktické odchy
 - `src/lib/utils.ts` a dependency `class-variance-authority`, `clsx`, `tailwind-merge` doplňujeme ručně jako nutné peer/runtime části pro vygenerované komponenty.
 - Autentizační ochranu umisťujeme do `src/proxy.ts`, protože jde o aktuální file convention v Next.js 16.
 - Na dashboardu používáme `UserButton` bez `afterSignOutUrl`; návrat po odhlášení řeší standardní Clerk konfigurace.
+- Pro CLI databázové skripty načítáme `.env.local` a `.env` přes `process.loadEnvFile`, aby stejné proměnné fungovaly v Next runtime i mimo něj.
+- Migrace logují přes `pino` logger, nikoliv přes `console.log`.
 
 ## Důsledky
 
@@ -31,3 +35,4 @@ Při implementaci podle `skeleton-app-spec.md` se ukázaly dvě praktické odchy
 - UI scaffold odpovídá současnému `shadcn` CLI a zůstává kompatibilní s Tailwind CSS v4.
 - Build není závislý na neúplném výstupu CLI a komponenty mají explicitně deklarované runtime závislosti.
 - Projekt neběží s deprecated konvencemi frameworku a odpovídá aktuálním typům Clerk SDK.
+- Databázové příkazy fungují bez ručního exportu env proměnných a projekt zůstává v souladu s pravidlem „žádné console.log“.
