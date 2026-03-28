@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm lint
+      - run: pnpm format:check
+      - run: pnpm build
+        env:
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_placeholder
+          CLERK_SECRET_KEY: sk_test_placeholder
+          TURSO_DATABASE_URL: file:local.db
+          TURSO_AUTH_TOKEN: placeholder
+          OPENAI_API_KEY: sk-placeholder
+          RESEND_API_KEY: re_placeholder
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+
+      - run: pnpm test
+        env:
+          TURSO_DATABASE_URL: file:local.db
+          TURSO_AUTH_TOKEN: placeholder
+          OPENAI_API_KEY: sk-placeholder
+          RESEND_API_KEY: re_placeholder
+          CLERK_SECRET_KEY: sk_test_placeholder
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_placeholder
