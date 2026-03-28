@@ -12,6 +12,8 @@ Při implementaci podle `skeleton-app-spec.md` se ukázaly dvě praktické odchy
 2. Scaffold generovaný `create-next-app` už používá nativní flat ESLint config z `eslint-config-next`, takže varianta s `FlatCompat` by přidávala zbytečnou dependency navíc.
 3. Aktuální `shadcn` CLI má `default` styl označený jako deprecated a místo něj doporučuje `new-york`.
 4. `shadcn add` v aktuální CLI negeneruje kompletní inicializační scaffold (`src/lib/utils.ts`) a nedoplnil všechny přímé dependency, které vygenerované komponenty importují.
+5. Next.js 16 přejmenoval `middleware.ts` na `proxy.ts`.
+6. Clerk 7 už nepodporuje prop `afterSignOutUrl` na komponentě `UserButton`.
 
 ## Rozhodnutí
 
@@ -19,6 +21,8 @@ Při implementaci podle `skeleton-app-spec.md` se ukázaly dvě praktické odchy
 - `eslint.config.mjs` používá současný flat config API z Next.js 16 a jen doplňuje projektové pravidlo pro nepoužité proměnné.
 - `components.json` používá styl `new-york` s base color `neutral`, protože to odpovídá současné oficiální cestě pro `shadcn`.
 - `src/lib/utils.ts` a dependency `class-variance-authority`, `clsx`, `tailwind-merge` doplňujeme ručně jako nutné peer/runtime části pro vygenerované komponenty.
+- Autentizační ochranu umisťujeme do `src/proxy.ts`, protože jde o aktuální file convention v Next.js 16.
+- Na dashboardu používáme `UserButton` bez `afterSignOutUrl`; návrat po odhlášení řeší standardní Clerk konfigurace.
 
 ## Důsledky
 
@@ -26,3 +30,4 @@ Při implementaci podle `skeleton-app-spec.md` se ukázaly dvě praktické odchy
 - Není potřeba instalovat další ESLint balíček mimo to, co už scaffold poskytuje.
 - UI scaffold odpovídá současnému `shadcn` CLI a zůstává kompatibilní s Tailwind CSS v4.
 - Build není závislý na neúplném výstupu CLI a komponenty mají explicitně deklarované runtime závislosti.
+- Projekt neběží s deprecated konvencemi frameworku a odpovídá aktuálním typům Clerk SDK.
