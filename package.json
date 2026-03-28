@@ -18,9 +18,11 @@
     "smoke": "node scripts/smoke-test.mjs"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.48",
     "@clerk/nextjs": "^7.0.7",
     "@libsql/client": "^0.17.2",
     "@react-email/components": "^1.0.10",
+    "ai": "^6.0.141",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.2",
