@@ -10,6 +10,7 @@ Minimalistický Next.js 16 skeleton s Clerk auth, Turso/Drizzle, OpenAI route, R
 - Clerk účet
 - OpenAI API key
 - Resend API key
+- Ověřená Resend doména, pokud chceš posílat mimo sandbox
 
 ## Rychlý start
 
@@ -20,6 +21,7 @@ Minimalistický Next.js 16 skeleton s Clerk auth, Turso/Drizzle, OpenAI route, R
    ```
 
 2. Zkopíruj `.env.local.example` na `.env.local` a doplň reálné hodnoty.
+   Pro doručování na cizí adresy nastav `RESEND_FROM_EMAIL` na adresu z ověřené domény v Resend.
 
 3. Nahraj schéma do databáze:
 

@@ -39,13 +39,20 @@ export default function HomePage() {
       });
 
       if (!response.ok) {
-        throw new Error("Request failed");
+        const payload = (await response.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+
+        throw new Error(payload?.error || "Failed to send email");
       }
 
       toast.success("Email sent!");
       setForm(initialForm);
-    } catch {
-      toast.error("Failed to send email");
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to send email";
+
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }
