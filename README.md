@@ -20,6 +20,8 @@ Minimalistický Next.js 16 skeleton s Clerk auth, Turso/Drizzle, OpenAI route, R
    pnpm install
    ```
 
+   Projekt záměrně vynucuje `pnpm`; `npm install` a `npm run ...` skončí chybou.
+
 2. Zkopíruj `.env.local.example` na `.env.local` a doplň reálné hodnoty.
    Pro doručování na cizí adresy nastav `RESEND_FROM_EMAIL` na adresu z ověřené domény v Resend.
 
