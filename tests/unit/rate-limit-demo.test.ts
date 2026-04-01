@@ -3,7 +3,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const selectMock = vi.fn();
 const insertMock = vi.fn();
-const deleteMock = vi.fn();
 const warnMock = vi.fn();
 
 vi.mock("@/db", () => {
@@ -14,18 +13,13 @@ vi.mock("@/db", () => {
   fromMock.mockReturnValue({ where: whereMock });
   whereMock.mockReturnValue([{ count: 0 }]);
 
-  const valuesWhereMock = vi.fn();
   const valuesMock = vi.fn().mockReturnValue({});
   insertMock.mockReturnValue({ values: valuesMock });
-
-  deleteMock.mockReturnValue({ where: valuesWhereMock });
-  valuesWhereMock.mockReturnValue({});
 
   return {
     db: {
       select: selectMock,
       insert: insertMock,
-      delete: deleteMock,
     },
   };
 });
@@ -67,9 +61,6 @@ describe("POST /api/rate-limit-demo", () => {
 
     const valuesMock = vi.fn().mockReturnValue({});
     insertMock.mockReturnValue({ values: valuesMock });
-
-    const deleteWhereMock = vi.fn().mockReturnValue({});
-    deleteMock.mockReturnValue({ where: deleteWhereMock });
 
     const { POST } = await import("@/app/api/rate-limit-demo/route");
     const response = await POST(makeRequest());

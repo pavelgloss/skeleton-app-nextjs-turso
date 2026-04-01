@@ -1,14 +1,18 @@
 # skeleton-app
 
-Skeleton / archetyp pro rychlé prototypování SaaS aplikací s AI agentským vývojem.
+Hotový starter pro SaaS appky. Navržený pro vývoj s AI agenty.
 
-## Cíl projektu
+## Proč
+
+Stavět SaaS od nuly znamená dny zapojování auth, databáze, emailu, API rout, testů a CI — ještě než napíšeš řádek business logiky. Tenhle skeleton to řeší za tebe. Clonuj repo, doplň env proměnné, deployni na Vercel a jeď.
 
 Máš nápad na SaaS appku? Udělej `git clone`, doplň env proměnné a začni řešit business logiku — ne boilerplate. Technologický stack (Next.js, auth, databáze, email, API, testy, CI) je vyřešený a připravený na deploy na Vercel.
 
-Projekt je optimalizovaný pro workflow s AI coding agenty: plníš backlog požadavky, agent kóduje. Díky hotové architektuře a konvencím (viz `CLAUDE.md`) agent rozumí struktuře projektu a produkuje konzistentní kód od prvního promptu.
+**AI-first workflow.** Součástí projektu je `CLAUDE.md` (TBD) s architekturou a konvencemi. AI coding agent tak rozumí struktuře kódu a píše konzistentní kód hned od prvního promptu. Ty plníš backlog, agent kóduje.
 
-**Stack:** Next.js 16 · Clerk auth · Turso/Drizzle ORM · OpenAI · Resend email · Vitest + Playwright · pnpm
+**Roste s tebou.** Všechny služby ve stacku (Vercel, Turso, Clerk, Resend) startují zdarma, ale škálují až na ~5 000 uživatelů bez migrace. Když PoC chytne, nic nepřepisuješ — prostě pokračuješ.
+
+**Stack:** Next.js 16 · Clerk · Turso + Drizzle · OpenAI · Resend · Vitest + Playwright · pnpm
 
 ## Požadavky
 

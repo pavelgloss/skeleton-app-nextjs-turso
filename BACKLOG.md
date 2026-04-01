@@ -32,6 +32,8 @@ Priorita: A (urgent) | B (normal) | C (nice-to-have)
 - [ ] **#4** `TODO` `B` `REFACTOR` — Sdílené typy/interfaces mezi UI a backend — best practices pro Next.js
   Zkontrolovat stávající stav, nastavit strukturu pro sdílení typů (ne Java-style "shared" modul, ale Next.js konvence). Vytvořit example a popsat v README.
 
+- [ ] **#5** `TODO` `B` `MANUAL` — Projít celý kód
+
 ## Archiv
 
 <!-- Hotové a přeskočené tasky - jen číslo + název -->

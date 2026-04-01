@@ -1,4 +1,4 @@
-import { and, eq, gt, lt, sql } from "drizzle-orm";
+import { and, eq, gt, sql } from "drizzle-orm";
 
 import { db } from "@/db";
 import { rateLimits } from "@/db/schema";
@@ -64,14 +64,6 @@ export async function checkRateLimit(
 
   // Record the request
   await db.insert(rateLimits).values({ ip, endpoint, createdAt: now });
-
-  // Cleanup old entries (older than longest window)
-  const maxWindow = Math.max(...windows.map((w) => w.windowSeconds));
-  const cleanupCutoff = now - maxWindow;
-
-  await db
-    .delete(rateLimits)
-    .where(lt(rateLimits.createdAt, cleanupCutoff));
 
   // Return info from the tightest window (first one)
   const tightest = windows[0];
