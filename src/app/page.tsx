@@ -24,6 +24,40 @@ const initialForm = {
 export default function HomePage() {
   const [form, setForm] = useState(initialForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [rateLimitResult, setRateLimitResult] = useState<{
+    ok?: boolean;
+    error?: string;
+    remaining?: string;
+    limit?: string;
+    retryAfterSeconds?: number;
+  } | null>(null);
+  const [isTestingRateLimit, setIsTestingRateLimit] = useState(false);
+
+  async function handleRateLimitTest() {
+    setIsTestingRateLimit(true);
+    try {
+      const response = await fetch("/api/rate-limit-demo", { method: "POST" });
+      const data = (await response.json()) as {
+        ok?: boolean;
+        error?: string;
+        retryAfterSeconds?: number;
+      };
+      setRateLimitResult({
+        ...data,
+        remaining: response.headers.get("X-RateLimit-Remaining") ?? undefined,
+        limit: response.headers.get("X-RateLimit-Limit") ?? undefined,
+      });
+      if (response.ok) {
+        toast.success("Request allowed");
+      } else {
+        toast.error(`Rate limited! Retry after ${data.retryAfterSeconds}s`);
+      }
+    } catch {
+      toast.error("Request failed");
+    } finally {
+      setIsTestingRateLimit(false);
+    }
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -139,6 +173,40 @@ export default function HomePage() {
               {isSubmitting ? "Sending..." : "Send"}
             </Button>
           </form>
+          <div className="border-t" />
+          <div className="space-y-3">
+            <p className="text-sm font-medium">Rate Limit Demo</p>
+            <p className="text-muted-foreground text-xs">
+              Hit the endpoint repeatedly to see rate limiting in action.
+            </p>
+            <Button
+              className="w-full"
+              variant="outline"
+              disabled={isTestingRateLimit}
+              onClick={handleRateLimitTest}
+            >
+              {isTestingRateLimit ? "Testing..." : "Test Rate Limit"}
+            </Button>
+            {rateLimitResult && (
+              <div className="bg-muted rounded-md p-3 text-xs font-mono space-y-1">
+                <p>
+                  Status:{" "}
+                  {rateLimitResult.ok ? (
+                    <span className="text-green-600">allowed</span>
+                  ) : (
+                    <span className="text-red-600">
+                      rate limited (retry after {rateLimitResult.retryAfterSeconds}s)
+                    </span>
+                  )}
+                </p>
+                {rateLimitResult.limit && (
+                  <p>
+                    Remaining: {rateLimitResult.remaining}/{rateLimitResult.limit}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
     </main>

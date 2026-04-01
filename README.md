@@ -1,6 +1,14 @@
 # skeleton-app
 
-Minimalistický Next.js 16 skeleton s Clerk auth, Turso/Drizzle, OpenAI route, Resend emailem a testovacím základem.
+Skeleton / archetyp pro rychlé prototypování SaaS aplikací s AI agentským vývojem.
+
+## Cíl projektu
+
+Máš nápad na SaaS appku? Udělej `git clone`, doplň env proměnné a začni řešit business logiku — ne boilerplate. Technologický stack (Next.js, auth, databáze, email, API, testy, CI) je vyřešený a připravený na deploy na Vercel.
+
+Projekt je optimalizovaný pro workflow s AI coding agenty: plníš backlog požadavky, agent kóduje. Díky hotové architektuře a konvencím (viz `CLAUDE.md`) agent rozumí struktuře projektu a produkuje konzistentní kód od prvního promptu.
+
+**Stack:** Next.js 16 · Clerk auth · Turso/Drizzle ORM · OpenAI · Resend email · Vitest + Playwright · pnpm
 
 ## Požadavky
 
