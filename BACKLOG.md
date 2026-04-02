@@ -34,6 +34,12 @@ Priorita: A (urgent) | B (normal) | C (nice-to-have)
 
 - [ ] **#5** `TODO` `B` `MANUAL` — Projít celý kód
 
+- [ ] **#6** `TODO` `B` `RESEARCH` — Zjistit co je v ADR (Architecture Decision Records)
+  Projít `docs/adr/` a zjistit obsah, účel a jestli dává smysl je udržovat.
+
+- [ ] **#7** `TODO` `B` `RESEARCH` — Kam dávat development rules pro AI agenta — docs/ vs /rules
+  Rozhodnout jestli pravidla typu drizzle-query-guide patří do `docs/`, do `.cursor/rules/`, do CLAUDE.md, nebo jinam. Zjistit best practices pro AI-driven development.
+
 ## Archiv
 
 <!-- Hotové a přeskočené tasky - jen číslo + název -->

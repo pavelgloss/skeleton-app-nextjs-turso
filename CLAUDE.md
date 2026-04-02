@@ -37,6 +37,10 @@ skeleton-app - Next.js 16 skeleton s Clerk auth, Turso DB, OpenAI a Resend.
 - Unit testy patří do `tests/unit/`, E2E do `tests/e2e/`
 - Před commitem spusť `pnpm lint` a `pnpm test`
 
+## Databázové dotazy
+
+- Pravidla pro Drizzle ORM dotazy jsou v [`docs/drizzle-query-guide.md`](docs/drizzle-query-guide.md)
+
 ## Nedělej
 
 - Nepřidávej Zod
