@@ -1,18 +1,16 @@
 # skeleton-app
 
-Hotový starter pro SaaS appky. Navržený pro vývoj s AI agenty.
+Hotový starter pro SaaS appky. Optimalizovaný pro workflow s AI coding agenty.
 
 ## Proč
 
-Stavět SaaS od nuly znamená dny zapojování auth, databáze, emailu, API rout, testů a CI — ještě než napíšeš řádek business logiky. Tenhle skeleton to řeší za tebe. Clonuj repo, doplň env proměnné, deployni na Vercel a jeď.
+Stavět SaaS od nuly znamená dny zapojování auth, databáze, emailu, API rout, testů a CI — ještě než napíšeš řádek business logiky. Tenhle skeleton to řeší za tebe. Clonuj repo, doplň env proměnné, deployni na Vercel a řeš business logiku — ne boilerplate.
 
-Máš nápad na SaaS appku? Udělej `git clone`, doplň env proměnné a začni řešit business logiku — ne boilerplate. Technologický stack (Next.js, auth, databáze, email, API, testy, CI) je vyřešený a připravený na deploy na Vercel.
-
-**AI-first workflow.** Součástí projektu je `CLAUDE.md` s architekturou a konvencemi. Databázové dotazy (Drizzle ORM) jsou psané stylem optimalizovaným pro AI agentický vývoj — self-contained Select API bez skrytých závislostí na relations grafu. AI coding agent tak rozumí struktuře kódu a píše konzistentní kód hned od prvního promptu. Ty plníš backlog, agent kóduje.
+**AI-first workflow.** Projekt obsahuje `CLAUDE.md` s architekturou, konvencemi a pravidly, které AI coding agent dostane do kontextu. Databázové dotazy (Drizzle ORM) používají self-contained Select API bez skrytých závislostí na relations grafu. Agent tak rozumí struktuře kódu a píše konzistentní kód hned od prvního promptu. Ty plníš backlog, agent kóduje.
 
 **Roste s tebou.** Všechny služby ve stacku (Vercel, Turso, Clerk, Resend) startují zdarma, ale škálují až na ~5 000 uživatelů bez migrace. Když PoC chytne, nic nepřepisuješ — prostě pokračuješ.
 
-**Stack:** Next.js 16 · Clerk · Turso + Drizzle · OpenAI · Resend · Vitest + Playwright · pnpm
+**Technologický stack:** Next.js 16 · Clerk (auth) · Turso (cloud databáze) + Drizzle · OpenAI · Resend · Vitest + Playwright · pnpm
 
 ## Požadavky
 
