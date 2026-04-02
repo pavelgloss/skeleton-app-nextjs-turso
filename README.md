@@ -51,6 +51,27 @@ Stavět SaaS od nuly znamená dny zapojování auth, databáze, emailu, API rout
 
 5. Otevři `http://localhost:3000`.
 
+## Skeleton Init — z šablony na funkční appku
+
+Projekt obsahuje Claude Code skill `/skeleton-init`, který přemění skeleton na reálnou web appku. Stačí popsat co chceš postavit a agent se postará o zbytek.
+
+V Claude Code spusť:
+
+```
+/skeleton-init Chci osobní web pro freelancera se sběrem emailů na školení
+```
+
+Nebo jen `/skeleton-init` — agent se zeptá co chceš.
+
+**Co udělá:**
+- Zeptá se na 2-3 upřesňující otázky (jen pokud potřeba)
+- Naplánuje MVP a rovnou implementuje — stránky, DB schéma, API, integrace
+- Ověří build (`pnpm lint` + `pnpm build`)
+- Commitne do main
+- Deployne na Vercel
+
+Výsledek je funkční appka s reálnými integracemi (auth, databáze, email), ne prototyp.
+
 ## Skripty
 
 | Skript              | Popis                              |
