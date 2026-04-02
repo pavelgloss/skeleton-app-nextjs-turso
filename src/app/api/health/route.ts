@@ -3,9 +3,10 @@ import { NextResponse } from "next/server";
 
 import { db } from "@/db";
 import { logger } from "@/lib/logger";
+import type { HealthCheckStatus } from "@/types/api";
 
 export async function GET() {
-  const checks: Record<string, "ok" | "error"> = {};
+  const checks: Record<string, HealthCheckStatus> = {};
 
   try {
     await db.run(sql`SELECT 1`);

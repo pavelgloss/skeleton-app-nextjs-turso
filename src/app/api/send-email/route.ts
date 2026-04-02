@@ -8,6 +8,7 @@ import {
   isResendSandboxSender,
 } from "@/lib/email";
 import { logger } from "@/lib/logger";
+import type { SendEmailRequest } from "@/types/api";
 
 type ResendSendError = {
   message: string;
@@ -45,7 +46,7 @@ function getResendErrorMessage(error: ResendSendError, from: string): string {
 }
 
 export const POST = apiHandler(async (req: NextRequest) => {
-  const { to, subject, text } = await req.json();
+  const { to, subject, text } = (await req.json()) as SendEmailRequest;
 
   if (!to || !subject || !text) {
     return NextResponse.json(

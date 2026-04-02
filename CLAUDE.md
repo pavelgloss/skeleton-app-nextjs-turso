@@ -32,6 +32,7 @@ skeleton-app - Next.js 16 skeleton s Clerk auth, Turso DB, OpenAI a Resend.
 - TypeScript strict mode, žádné `any`
 - Používej import alias `@/`
 - Nové DB tabulky přidávej do `src/db/schema.ts`
+- Sdílené API request/response typy dávej do `src/types/api.ts` a importuj z obou stran (UI i API routes)
 - Nové sdílené utility dávej do `src/lib/`
 - Nové React komponenty dávej do `src/components/`
 - Unit testy patří do `tests/unit/`, E2E do `tests/e2e/`

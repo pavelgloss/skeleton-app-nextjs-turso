@@ -127,6 +127,7 @@ Výsledek je funkční appka s reálnými integracemi (auth, databáze, email), 
 - `src/proxy.ts` chrání dashboard a další routy přes Clerk.
 - `src/db/` obsahuje Drizzle schéma, klienta a migrace runner.
 - `src/emails/` drží React Email šablony.
+- `src/types/api.ts` sdílené request/response typy pro API routes (importují UI i backend).
 - `src/lib/` obsahuje sdílené utility, logger, env vrstvu a helpery.
 - `tests/unit/` obsahuje Vitest testy.
 - `tests/e2e/` obsahuje Playwright scénáře.

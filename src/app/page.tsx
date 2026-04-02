@@ -14,43 +14,55 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import type {
+  ApiError,
+  RateLimitDemoResponse,
+  SendEmailRequest,
+} from "@/types/api";
 
-const initialForm = {
+const initialForm: SendEmailRequest = {
   to: "",
   subject: "",
   text: "",
 };
 
+interface RateLimitState {
+  ok?: boolean;
+  error?: string;
+  remaining?: string;
+  limit?: string;
+  retryAfterSeconds?: number;
+}
+
 export default function HomePage() {
-  const [form, setForm] = useState(initialForm);
+  const [form, setForm] = useState<SendEmailRequest>(initialForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [rateLimitResult, setRateLimitResult] = useState<{
-    ok?: boolean;
-    error?: string;
-    remaining?: string;
-    limit?: string;
-    retryAfterSeconds?: number;
-  } | null>(null);
+  const [rateLimitResult, setRateLimitResult] =
+    useState<RateLimitState | null>(null);
   const [isTestingRateLimit, setIsTestingRateLimit] = useState(false);
 
   async function handleRateLimitTest() {
     setIsTestingRateLimit(true);
     try {
       const response = await fetch("/api/rate-limit-demo", { method: "POST" });
-      const data = (await response.json()) as {
-        ok?: boolean;
-        error?: string;
-        retryAfterSeconds?: number;
-      };
+      const data = (await response.json()) as
+        | RateLimitDemoResponse
+        | ApiError;
       setRateLimitResult({
         ...data,
+        ok: "ok" in data ? data.ok : undefined,
+        error: "error" in data ? data.error : undefined,
+        retryAfterSeconds:
+          "retryAfterSeconds" in data ? data.retryAfterSeconds : undefined,
         remaining: response.headers.get("X-RateLimit-Remaining") ?? undefined,
         limit: response.headers.get("X-RateLimit-Limit") ?? undefined,
       });
       if (response.ok) {
         toast.success("Request allowed");
       } else {
-        toast.error(`Rate limited! Retry after ${data.retryAfterSeconds}s`);
+        const retryAfter =
+          "retryAfterSeconds" in data ? data.retryAfterSeconds : "?";
+        toast.error(`Rate limited! Retry after ${retryAfter}s`);
       }
     } catch {
       toast.error("Request failed");
@@ -73,9 +85,7 @@ export default function HomePage() {
       });
 
       if (!response.ok) {
-        const payload = (await response.json().catch(() => null)) as {
-          error?: string;
-        } | null;
+        const payload = (await response.json().catch(() => null)) as ApiError | null;
 
         throw new Error(payload?.error || "Failed to send email");
       }

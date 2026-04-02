@@ -4,6 +4,7 @@ import { generateText } from "ai";
 import { NextRequest, NextResponse } from "next/server";
 
 import { apiHandler } from "@/lib/api-handler";
+import type { ChatRequest } from "@/types/api";
 
 export const POST = apiHandler(async (req: NextRequest) => {
   const { userId } = await auth();
@@ -12,7 +13,7 @@ export const POST = apiHandler(async (req: NextRequest) => {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { prompt } = await req.json();
+  const { prompt } = (await req.json()) as ChatRequest;
 
   if (!prompt || typeof prompt !== "string") {
     return NextResponse.json(
