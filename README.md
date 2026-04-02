@@ -10,6 +10,8 @@ Stavět SaaS od nuly znamená dny zapojování auth, databáze, emailu, API rout
 
 **Roste s tebou.** Všechny služby ve stacku (Vercel, Turso, Clerk, Resend) startují zdarma, ale škálují až na ~5 000 uživatelů bez migrace. Když PoC chytne, nic nepřepisuješ — prostě pokračuješ.
 
+**Proč Turso a ne Supabase?** Supabase na free tieru dává jen 500 MB a po období nečinnosti suspenduje projekt. Když vyvíjíš PoC a týden nekóduješ, vrátíš se k mrtvé databázi. Turso má 5 GB na free tieru a nic nesuspenduje.
+
 **Technologický stack:** Next.js 16 · Clerk (auth) · Turso (cloud databáze) + Drizzle · OpenAI · Resend · Vitest + Playwright · pnpm
 
 ## Požadavky
