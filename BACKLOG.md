@@ -40,6 +40,9 @@ Priorita: A (urgent) | B (normal) | C (nice-to-have)
 - [ ] **#7** `TODO` `B` `RESEARCH` — Kam dávat development rules pro AI agenta — docs/ vs /rules
   Rozhodnout jestli pravidla typu drizzle-query-guide patří do `docs/`, do `.cursor/rules/`, do CLAUDE.md, nebo jinam. Zjistit best practices pro AI-driven development.
 
+- [ ] **#8** `IDEA` `B` `RESEARCH` — Vymyslet lepší název pro skeleton appku
+  "skeleton" je moc technický. Zvážit "agentic app" nebo jiný název, který lépe vystihne účel archetypu/skeletonu.
+
 ## Archiv
 
 <!-- Hotové a přeskočené tasky - jen číslo + název -->
