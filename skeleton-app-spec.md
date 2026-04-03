@@ -465,7 +465,7 @@ export function getResend(): Resend {
 pnpm add @clerk/nextjs
 ```
 
-### 4.2 `src/middleware.ts`
+### 4.2 `src/proxy.ts` (Next.js 16 přejmenoval middleware.ts na proxy.ts)
 
 ```ts
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
@@ -563,7 +563,7 @@ export default async function DashboardPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-4">
       <p>Přihlášen jako {user.emailAddresses[0]?.emailAddress}</p>
-      <UserButton afterSignOutUrl="/" />
+      <UserButton />
     </div>
   );
 }
@@ -575,7 +575,12 @@ In Clerk Dashboard (clerk.com):
 1. Create application
 2. Under **Social connections**: enable **Google** and **Facebook** only
 3. Disable **Email + Password** (under Email, Phone, Username)
-4. Set redirect URLs per env vars
+4. In **Configure → Paths**, set Component paths:
+   - `<SignIn />` → **Sign-in page on development host** → `/sign-in`
+   - `<SignUp />` → **Sign-up page on development host** → `/sign-up`
+   - Signing Out → **Page on development host** → `/`
+
+   ⚠ Bez tohoto Clerk používá hosted Account Portal a custom sign-in/sign-up stránky nefungují (redirect loop).
 
 ### Acceptance criteria — Task 4
 - Unauthenticated user visiting `/dashboard` gets redirected to `/sign-in`

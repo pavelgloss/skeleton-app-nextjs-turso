@@ -114,8 +114,12 @@ Výsledek je funkční appka s reálnými integracemi (auth, databáze, email), 
 1. V Clerk dashboardu vytvoř aplikaci.
 2. V části Social connections zapni pouze Google a Facebook.
 3. Vypni Email + Password i další lokální metody přihlášení.
-4. Nastav redirect URL:
-   `/sign-in`, `/sign-up`, `/dashboard`
+4. V **Configure → Paths** nastav Component paths:
+   - `<SignIn />` → **Sign-in page on development host** → `/sign-in`
+   - `<SignUp />` → **Sign-up page on development host** → `/sign-up`
+   - Signing Out → **Page on development host** → `/`
+
+   ⚠ Bez tohoto Clerk používá hosted Account Portal a custom sign-in/sign-up stránky nefungují (redirect loop).
 5. Zkopíruj API klíče do `.env.local`.
 
 ## Deploy na Vercel

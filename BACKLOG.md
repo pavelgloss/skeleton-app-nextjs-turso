@@ -46,7 +46,10 @@ Priorita: A (urgent) | B (normal) | C (nice-to-have)
 - [ ] **#9** `IDEA` `B` `RESEARCH` — jestli vynucovat Server Actions nebo raději explicitně API endpointy (routes), z hlediska rychlosti vývoje, readability a maintenance v rámci AI Agentic Flow
   Server Actions - jde o mechanismus pro typově bezpečné RPC (Remote Procedure Call), který automaticky vytvoří API endpoint pro serverovou funkci a umožní ti ji volat z klienta jako běžnou asynchronní metodu
 
-  
+- [ ] **#10** `TODO` `B` `INFRA` — Smazat node_modules a nastavit pnpm store na user level
+  Zajistit že pnpm ukládá dependencies do globálního store (user level), ne do project level.
+
+
 
 ## Archiv
 
