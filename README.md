@@ -37,6 +37,25 @@ Stavět SaaS od nuly znamená dny zapojování auth, databáze, emailu, API rout
 2. Zkopíruj `.env.local.example` na `.env.local` a doplň reálné hodnoty.
    Pro doručování na cizí adresy nastav `RESEND_FROM_EMAIL` na adresu z ověřené domény v Resend.
 
+   **Kde získat API klíče:**
+
+   | Služba | Odkaz |
+   |--------|-------|
+   | Clerk  | https://dashboard.clerk.com → tvá aplikace → **API Keys** |
+   | Resend | https://resend.com/api-keys |
+   | OpenAI | https://platform.openai.com/api-keys |
+   | Turso  | Přes CLI — viz níže |
+
+   **Turso databáze přes CLI (na Windows použij WSL):**
+
+   ```bash
+   curl -sSfL https://get.tur.so/install.sh | bash   # instalace CLI (uvnitř WSL)
+   turso auth login                                    # přihlášení
+   turso db create skeleton-app                        # vytvoření DB
+   turso db show skeleton-app --url                    # → TURSO_DATABASE_URL
+   turso db tokens create skeleton-app                 # → TURSO_AUTH_TOKEN
+   ```
+
 3. Nahraj schéma do databáze:
 
    ```bash
