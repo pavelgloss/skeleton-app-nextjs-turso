@@ -43,6 +43,11 @@ Priorita: A (urgent) | B (normal) | C (nice-to-have)
 - [ ] **#8** `IDEA` `B` `RESEARCH` — Vymyslet lepší název pro skeleton appku
   "skeleton" je moc technický. Zvážit "agentic app" nebo jiný název, který lépe vystihne účel archetypu/skeletonu.
 
+- [ ] **#9** `IDEA` `B` `RESEARCH` — jestli vynucovat Server Actions nebo raději explicitně API endpointy (routes), z hlediska rychlosti vývoje, readability a maintenance v rámci AI Agentic Flow
+  Server Actions - jde o mechanismus pro typově bezpečné RPC (Remote Procedure Call), který automaticky vytvoří API endpoint pro serverovou funkci a umožní ti ji volat z klienta jako běžnou asynchronní metodu
+
+  
+
 ## Archiv
 
 <!-- Hotové a přeskočené tasky - jen číslo + název -->
