@@ -22,12 +22,19 @@ Skeleton-app je Next.js 16 starter s tímto stackem:
 
 Klíčové soubory:
 - `src/app/` — App Router stránky a API routes
+- `src/db/index.ts` — DB klient (lazy inicializace přes Proxy — **neinicializuje se při importu**, ale až při prvním použití, aby build na Vercelu nepadal kvůli chybějícím env vars)
 - `src/db/schema.ts` — Drizzle schéma (tabulky users, rateLimits)
 - `src/lib/api-handler.ts` — wrapper pro API routes (vždy používej)
 - `src/lib/env.ts` — env proměnné (bez Zod)
 - `src/proxy.ts` — route protection (Clerk middleware)
 - `src/components/ui/` — base UI components
 - `src/emails/` — React Email šablony
+
+### Vercel build gotcha — lazy DB inicializace
+
+`src/db/index.ts` používá lazy Proxy pattern: DB klient se vytvoří až při prvním přístupu k `db`, ne při importu modulu. To je **kritické** pro Vercel deployment — při `next build` se importují API routes, ale env proměnné (TURSO_DATABASE_URL) nejsou dostupné. Pokud by se DB klient inicializoval na top-level, build spadne s `LibsqlError: URL_INVALID: undefined`.
+
+**Nikdy neměň `src/db/index.ts` na eager (top-level) inicializaci.** Pokud potřebuješ upravit DB setup, zachovej lazy pattern.
 
 ## Postup
 
