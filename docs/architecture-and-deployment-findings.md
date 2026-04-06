@@ -49,9 +49,9 @@ Stejný princip platí i uvnitř implementace lazy singletonu. Zápis `if (dbIns
 
 Vercel může defaultně přiřadit Node.js verzi, která neodpovídá projektu (např. Node 24 místo 22). To může způsobit nekompatibility.
 
-Vercel nečte `engines.node` z `package.json` — používá vlastní nastavení projektu.
+Aktuální Vercel umí Node.js verzi přebrat i z `package.json` přes `engines.node`. Pokud je rozsah moc široký (např. `>=22.0.0`), Vercel může vybrat vyšší podporovaný major, než chceš. To znamená, že pro vynucení Node 22 je lepší použít `22.x` nebo `^22.0.0`, ne otevřený rozsah.
 
-**Řešení:** Nastavit per projekt ve Vercelu (Project → Settings → General → Node.js Version) nebo přes API:
+**Řešení:** V `package.json` nastavit `engines.node` na `22.x` a případně stejnou major verzi potvrdit i ve Vercelu (Project → Settings → General → Node.js Version) nebo přes API:
 
 ```bash
 # Přes Vercel API
