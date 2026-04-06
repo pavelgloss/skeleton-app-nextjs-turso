@@ -1,13 +1,13 @@
 ---
 name: skeleton-init
-description: "Přemění skeleton-app na reálnou web appku podle popisu uživatele. Zeptá se co chce, naimplementuje funkční MVP, lokálně commitne a deployne na Vercel přes CLI bez Git integrace podle projektové deployment dokumentace."
+description: "Přemění skeleton-app na reálnou web appku podle popisu uživatele. Zeptá se co chce, naimplementuje funkční MVP, lokálně commitne a deployne na Vercel přes CLI bez Git integrace."
 argument-hint: "[popis appky]"
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, AskUserQuestion
 ---
 
 # skeleton-init
 
-Přeměníš skeleton-app na reálnou web appku. Uživatel popíše co chce, ty to naimplementuješ jako funkční MVP, lokálně commitneš a deployneš na Vercel přes CLI bez Git integrace.
+Přeměníš skeleton-app na reálnou web appku. Uživatel popíše co chce, ty to naimplementuješ jako funkční MVP, lokálně commitneš do `main` a deployneš na Vercel přes CLI bez Git integrace.
 
 ## Kontext projektu
 
@@ -107,17 +107,26 @@ Nikdy nepoužívej `git push` ani jiný push do remote repozitáře. Lokální c
 
 ### 7. Deployni na Vercel
 
-Postupuj podle `docs/first-deployment.md` a `docs/architecture-and-deployment-findings.md`.
+Používej ověřený CLI-only postup bez Git integrace.
 
 Pravidla:
 - deploy dělej přes Vercel CLI bez Git integrace
 - v repu nesmí být lokální remote `origin`; pokud existuje, odstraň ho jen lokálně přes `git remote remove origin`
-- používej explicitní scope v neinteraktivním režimu: `vercel --prod --scope pavel-gloss-projects`
-- ve Vercel průvodci nastav `Connect Git: No`
-- env proměnné nahraj z `.env.local` přes `vercel env add ... --value ... --scope pavel-gloss-projects`, ne přes `stdin`
-- po nahrání env proměnných udělej nový `vercel --prod --scope pavel-gloss-projects`
+- v neinteraktivním režimu používej explicitní `--scope <team-nebo-user-scope>` (to stačí jenom při prvním `vercel --prod`)
+- produkční deploy dělej přes `vercel --prod`, případně `vercel --prod --scope <scope>`
+- ve Vercel průvodci nastav `Directory: .`, `Modify settings: No`, `Connect Git: No`
+- env proměnné nahraj z `.env.local` přes `vercel env add <KEY> production --value <VALUE> --yes --force`; nikdy je neposílej přes `stdin`
+- po nahrání env proměnných udělej nový produkční deploy pomocí `vercel --prod`
 
-Pokud deploy selže kvůli env proměnným nebo Vercel CLI subprocesu, drž se project docs a popiš uživateli přesně co chybí.
+Důvody:
+- Git integrace může na Hobby plánu blokovat deploye u privátních repozitářů
+- `--value` je bezpečnější než `stdin`, protože nehrozí nechtěný trailing newline v hodnotě env proměnné
+- explicitní scope je důležitý hlavně v neinteraktivním běhu, kde CLI nemusí mít správný default
+
+Pokud deploy selže:
+- při chybějících env proměnných je doplň do Vercelu a proveď nový deploy
+- pokud CLI spuštěné jako subproces nedokáže korektně streamovat build logy, zkus deploy z běžného terminálu
+- pokud Vercel začne nutit Git-linked deploy flow pro privátní repo, drž se CLI-only varianty bez `origin`
 
 ### 8. Zapiš výsledek
 
