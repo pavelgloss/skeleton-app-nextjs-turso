@@ -12,7 +12,11 @@ Vercel se automaticky pokusí propojit projekt s GitHub repem. Na Hobby plánu p
 
 **Řešení:** Propojit GitHub repo s Vercel projektem (Project → Settings → Git → Connect). Pak `git push` = automatický deploy bez blokace. Viz `docs/first-deployment.md` pro kompletní postup.
 
-Alternativy: udělat repo public, nebo upgradovat na Pro plán.
+Alternativy:
+
+- na Hobby plánu deployovat ručně přes Vercel CLI bez Git integrace (`vercel --prod --scope pavel-gloss-projects` a `Connect Git: No`)
+- udělat repo public
+- upgradovat na Pro plán
 
 ## 2. Lazy inicializace DB klienta (Turso/libSQL)
 
