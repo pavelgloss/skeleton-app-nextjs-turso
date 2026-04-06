@@ -5,11 +5,33 @@ import { loadEnvFiles } from "@/lib/load-env-files";
 
 import * as schema from "./schema";
 
-loadEnvFiles();
+function createDb() {
+  loadEnvFiles();
 
-const client = createClient({
-  url: process.env.TURSO_DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN!,
-});
+  const databaseUrl = process.env.TURSO_DATABASE_URL;
+  const authToken = process.env.TURSO_AUTH_TOKEN;
 
-export const db = drizzle(client, { schema });
+  if (!databaseUrl) {
+    throw new Error(
+      "Missing required environment variable: TURSO_DATABASE_URL",
+    );
+  }
+
+  if (!authToken) {
+    throw new Error("Missing required environment variable: TURSO_AUTH_TOKEN");
+  }
+
+  const client = createClient({
+    url: databaseUrl,
+    authToken,
+  });
+
+  return drizzle(client, { schema });
+}
+
+let dbInstance: ReturnType<typeof createDb> | undefined;
+
+export function getDb() {
+  dbInstance ??= createDb();
+  return dbInstance;
+}

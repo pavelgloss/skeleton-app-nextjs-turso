@@ -4,7 +4,7 @@ Stack: TypeScript, Next.js, Drizzle ORM, Turso (SQLite)
 
 ## Vždy používej Select API, ne Query API
 
-Select API (`db.select().from()`) je výchozí a jediný povolený styl v tomto projektu.
+Select API (`getDb().select().from()` nebo lokální `const db = getDb()`) je výchozí a jediný povolený styl v tomto projektu.
 
 **Proč:**
 
@@ -15,9 +15,13 @@ Select API (`db.select().from()`) je výchozí a jediný povolený styl v tomto 
 
 ## Vzory
 
+V ukázkách se předpokládá `import { getDb } from "@/db"`.
+
 ### Jednoduchý select
 
 ```ts
+const db = getDb();
+
 const user = await db
   .select()
   .from(users)
@@ -28,6 +32,8 @@ const user = await db
 ### Select konkrétních sloupců
 
 ```ts
+const db = getDb();
+
 const emails = await db
   .select({ email: users.email })
   .from(users)
@@ -37,6 +43,8 @@ const emails = await db
 ### Agregace přes `sql<T>`
 
 ```ts
+const db = getDb();
+
 const [result] = await db
   .select({ count: sql<number>`count(*)` })
   .from(rateLimits)
@@ -46,6 +54,8 @@ const [result] = await db
 ### JOIN místo Query API relations
 
 ```ts
+const db = getDb();
+
 // Správně - explicitní JOIN
 const rows = await db
   .select({
@@ -64,12 +74,16 @@ const rows = await db
 ### Insert
 
 ```ts
+const db = getDb();
+
 await db.insert(users).values({ clerkId, email });
 ```
 
 ### Insert s returning (pokud potřebuješ ID)
 
 ```ts
+const db = getDb();
+
 const [newUser] = await db
   .insert(users)
   .values({ clerkId, email })
@@ -79,6 +93,8 @@ const [newUser] = await db
 ### Update
 
 ```ts
+const db = getDb();
+
 await db
   .update(users)
   .set({ email: newEmail })
@@ -88,6 +104,8 @@ await db
 ### Delete
 
 ```ts
+const db = getDb();
+
 await db.delete(rateLimits).where(lt(rateLimits.createdAt, cutoff));
 ```
 
@@ -95,6 +113,8 @@ await db.delete(rateLimits).where(lt(rateLimits.createdAt, cutoff));
 
 ```ts
 import { sql } from "drizzle-orm";
+
+const db = getDb();
 
 const result = await db.run(
   sql`DELETE FROM ${rateLimits} WHERE created_at < ${cutoff}`,

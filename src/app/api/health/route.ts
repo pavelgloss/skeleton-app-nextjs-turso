@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { logger } from "@/lib/logger";
 import type { HealthCheckStatus } from "@/types/api";
 
@@ -9,7 +9,7 @@ export async function GET() {
   const checks: Record<string, HealthCheckStatus> = {};
 
   try {
-    await db.run(sql`SELECT 1`);
+    await getDb().run(sql`SELECT 1`);
     checks.database = "ok";
   } catch {
     checks.database = "error";

@@ -17,10 +17,10 @@ vi.mock("@/db", () => {
   insertMock.mockReturnValue({ values: valuesMock });
 
   return {
-    db: {
+    getDb: () => ({
       select: selectMock,
       insert: insertMock,
-    },
+    }),
   };
 });
 

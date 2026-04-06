@@ -1,11 +1,12 @@
 import type { User as ClerkUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { users } from "@/db/schema";
 import { logger } from "@/lib/logger";
 
 export async function syncUser(clerkUser: ClerkUser): Promise<void> {
+  const db = getDb();
   const existing = await db
     .select()
     .from(users)

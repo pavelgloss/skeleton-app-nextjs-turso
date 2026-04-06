@@ -5,9 +5,9 @@ const warnMock = vi.fn();
 const originalEnv = { ...process.env };
 
 vi.mock("@/db", () => ({
-  db: {
+  getDb: () => ({
     run: runMock,
-  },
+  }),
 }));
 
 vi.mock("@/lib/logger", () => ({

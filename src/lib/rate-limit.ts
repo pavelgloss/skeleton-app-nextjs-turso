@@ -1,6 +1,6 @@
 import { and, eq, gt, sql } from "drizzle-orm";
 
-import { db } from "@/db";
+import { getDb } from "@/db";
 import { rateLimits } from "@/db/schema";
 import { logger } from "@/lib/logger";
 
@@ -28,6 +28,7 @@ export async function checkRateLimit(
   windows: RateLimitWindow[] = DEFAULT_WINDOWS,
 ): Promise<RateLimitResult> {
   const now = Math.floor(Date.now() / 1000);
+  const db = getDb();
 
   // Check each window
   for (const window of windows) {

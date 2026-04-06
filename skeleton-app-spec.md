@@ -639,25 +639,48 @@ export type NewUser = typeof users.$inferInsert;
 ```ts
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
+import { loadEnvFiles } from "@/lib/load-env-files";
 import * as schema from "./schema";
 
-const client = createClient({
-  url: process.env.TURSO_DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN!,
-});
+function createDb() {
+  loadEnvFiles();
 
-export const db = drizzle(client, { schema });
+  const databaseUrl = process.env.TURSO_DATABASE_URL;
+  const authToken = process.env.TURSO_AUTH_TOKEN;
+
+  if (!databaseUrl) {
+    throw new Error("Missing required environment variable: TURSO_DATABASE_URL");
+  }
+
+  if (!authToken) {
+    throw new Error("Missing required environment variable: TURSO_AUTH_TOKEN");
+  }
+
+  const client = createClient({
+    url: databaseUrl,
+    authToken,
+  });
+
+  return drizzle(client, { schema });
+}
+
+let dbInstance: ReturnType<typeof createDb> | undefined;
+
+export function getDb() {
+  dbInstance ??= createDb();
+  return dbInstance;
+}
 ```
 
 ### 5.5 `src/db/migrate.ts`
 
 ```ts
 import { migrate } from "drizzle-orm/libsql/migrator";
-import { db } from "./index";
+import { getDb } from "./index";
 
 async function main() {
   console.log("Running migrations...");
-  await migrate(db, { migrationsFolder: "./drizzle" });
+  await migrate(getDb(), { migrationsFolder: "./drizzle" });
   console.log("Migrations complete.");
   process.exit(0);
 }
@@ -673,13 +696,15 @@ Run with: `pnpm db:migrate` (which calls `tsx src/db/migrate.ts`)
 ### 5.6 `src/lib/user-sync.ts` — Clerk→DB on-demand sync
 
 ```ts
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { logger } from "@/lib/logger";
 import type { User as ClerkUser } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
+
+import { getDb } from "@/db";
+import { users } from "@/db/schema";
+import { logger } from "@/lib/logger";
 
 export async function syncUser(clerkUser: ClerkUser): Promise<void> {
+  const db = getDb();
   const existing = await db
     .select()
     .from(users)
@@ -884,8 +909,9 @@ export const POST = apiHandler(async (req: NextRequest) => {
 
 ```ts
 import { NextResponse } from "next/server";
-import { db } from "@/db";
 import { sql } from "drizzle-orm";
+
+import { getDb } from "@/db";
 import { logger } from "@/lib/logger";
 
 export async function GET() {
@@ -893,7 +919,7 @@ export async function GET() {
 
   // DB check
   try {
-    await db.run(sql`SELECT 1`);
+    await getDb().run(sql`SELECT 1`);
     checks.database = "ok";
   } catch {
     checks.database = "error";
