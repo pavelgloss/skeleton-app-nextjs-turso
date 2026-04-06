@@ -129,3 +129,4 @@ const result = await db.run(
 4. **Skládej podmínky přes `and()`/`or()`** - ne řetězení `.where().where()`
 5. **Pojmenovávej sloupce v selectu** když nevracíš celý řádek: `{ count: sql<number>\`count(*)\` }`
 6. **Indexy definuj v schématu** přímo u tabulky, ne zvlášť
+7. **U lazy init a singletonů preferuj explicitní `if`** před `??=` nebo podobnou zkrácenou syntaxí, pokud je čitelnější

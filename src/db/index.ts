@@ -32,6 +32,9 @@ function createDb() {
 let dbInstance: ReturnType<typeof createDb> | undefined;
 
 export function getDb() {
-  dbInstance ??= createDb();
+  if (dbInstance === undefined) {
+    dbInstance = createDb();
+  }
+
   return dbInstance;
 }
