@@ -37,7 +37,8 @@ skeleton-app - Next.js 16 skeleton s Clerk auth, Turso DB, OpenAI a Resend.
 - Nové React komponenty dávej do `src/components/`
 - Unit testy patří do `tests/unit/`, E2E do `tests/e2e/`
 - Před commitem spusť `pnpm lint` a `pnpm test`
-- Preferuj explicitní control flow a mezikroky před zkrácenými operátory nebo "chytrým" zápisem, pokud tím roste čitelnost pro člověka i AI agenta
+- Preferuj explicitní control flow a pojmenované mezikroky před zkrácenými operátory nebo "chytrým" zápisem, pokud je explicitní varianta čitelnější
+- Zvlášť u lazy init, singletonů, fallbacků a kódu se side effectem preferuj zápis, ze kterého je na první pohled vidět podmínka, pořadí kroků a okamžik inicializace (např. explicitní `if` místo `??=`)
 
 ## Databázové dotazy
 

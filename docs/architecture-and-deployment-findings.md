@@ -32,6 +32,8 @@ Dvě varianty implementace:
 
 **Pro AI agentic workflow preferuj `getDb()`** — explicitní kód je lepší než chytrý kód. Agent rozumí funkci, nerozumí Proxy magii. Pár řádků navíc v konzumentech je lepší než skrytá složitost v jednom souboru.
 
+Stejný princip platí i uvnitř implementace lazy singletonu. Zápis `if (dbInstance === undefined) { dbInstance = createDb(); }` je pro AI agenta i člověka čitelnější než `dbInstance ??= createDb();`, protože je z něj okamžitě vidět podmínka, side effect i moment inicializace. Úspora několika znaků tady nemá hodnotu, pokud schová důležitý krok.
+
 **Poznámka k `force-dynamic`:** Next.js má direktivu `export const dynamic = "force-dynamic"`, která říká „tuto route prerenderuj až za běhu, ne při buildu". Dá se tím obejít problém s build-time importy, ale je to obezlička — neřeší příčinu (eager init), jen symptom. Správné řešení je lazy DB init.
 
 ## 3. Node.js verze na Vercelu
