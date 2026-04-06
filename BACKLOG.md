@@ -49,6 +49,16 @@ Priorita: A (urgent) | B (normal) | C (nice-to-have)
 - [ ] **#10** `TODO` `B` `INFRA` — Smazat node_modules a nastavit pnpm store na user level
   Zajistit že pnpm ukládá dependencies do globálního store (user level), ne do project level.
 
+- [ ] **#11** `TODO` `AA` `MANUAL` — Ověřit jestli Vercelu vadí Claude Code jako contributor v privátním repu
+  Prověřit jestli `Co-Authored-By` nebo commity se dvěma user identitami můžou na Vercelu spouštět stejný `Blocked` problém jako odlišný Git author.
+  tj. do nového repa, bez historie commitů, udělám git init a jeden commit jako uživatel X versus logged user na vercelu jestli bude stále  problém
+
+- [ ] **#12** `TODO` `AA` `MANUAL` — Ručně zkusit nalinkovat Vercel a Git a ověřit identitu uživatele
+  Ověřit jestli si Vercel při ručním Git linku pořád myslí, že Git user je jiný než přihlášený Vercel user, a jestli to znovu končí `Blocked`.
+
+- [ ] **#13** `TODO` `B` `REFACTOR` — Zkonsolidovat `AGENTS.md` a `CLAUDE.md`
+  Rozhodnout co má být canonical source pro agent instrukce, odstranit duplicity a srovnat případné rozpory mezi oběma soubory.
+
 
 
 ## Archiv
