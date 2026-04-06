@@ -25,6 +25,15 @@ Error: Failed to collect page data for /api/health
 
 **Řešení:** DB klient v `src/db/index.ts` musí používat lazy inicializaci — vytvoří se až při prvním reálném přístupu, ne při importu.
 
+Obecnější pravidlo z tohohle incidentu: top-level kód v server modulech má být bez side effectů a bez eager inicializace závislé na runtime prostředí. Když framework při buildu nebo analýze modul importuje, může se top-level kód spustit dřív, než čekáš.
+
+Konkrétně:
+
+- žádné zápisy do DB na top-level
+- žádné volání externích API na top-level
+- žádné čtení runtime-only env proměnných na top-level, pokud build ty hodnoty nepotřebuje
+- inicializaci klientů a jiný side-effectful kód dělat až uvnitř funkce, handleru, action, jobu nebo jiného explicitně volaného entrypointu
+
 Dvě varianty implementace:
 
 - **`getDb()` funkce** (preferovaná) — explicitní volání, konzumenti píší `getDb().select()...`. Čitelné, žádná magie, AI agent i člověk okamžitě vidí, že je to lazy.

@@ -39,6 +39,9 @@ skeleton-app - Next.js 16 skeleton s Clerk auth, Turso DB, OpenAI a Resend.
 - Před commitem spusť `pnpm lint` a `pnpm test`
 - Preferuj explicitní control flow a pojmenované mezikroky před zkrácenými operátory nebo "chytrým" zápisem, pokud je explicitní varianta čitelnější
 - Zvlášť u lazy init, singletonů, fallbacků a kódu se side effectem preferuj zápis, ze kterého je na první pohled vidět podmínka, pořadí kroků a okamžik inicializace (např. explicitní `if` místo `??=`)
+- Top-level kód v server modulech musí být bez side effectů a bez eager inicializace závislé na runtime prostředí
+- Na top-level v server modulech nedělej zápisy do DB, nevolej externí API a nečti runtime-only env proměnné, pokud build ty hodnoty nepotřebuje
+- Inicializaci klientů a jiný side-effectful kód dělej až uvnitř funkce, handleru, action, jobu nebo jiného explicitně volaného entrypointu
 
 ## Databázové dotazy
 
