@@ -59,6 +59,25 @@ Priorita: A (urgent) | B (normal) | C (nice-to-have)
 - [ ] **#13** `TODO` `B` `REFACTOR` — Zkonsolidovat `AGENTS.md` a `CLAUDE.md`
   Rozhodnout co má být canonical source pro agent instrukce, odstranit duplicity a srovnat případné rozpory mezi oběma soubory.
 
+- [ ] **#14** `TODO` `B` `RESEARCH` — Prověřit spolehlivost syncu Clerk user → DB
+  Dnes se sync dělá jen on-demand při vstupu na `/dashboard`: `src/proxy.ts` route chrání, `src/app/dashboard/page.tsx` zavolá `currentUser()`, a pokud user existuje, `src/lib/user-sync.ts` udělá `select where clerk_id = ...` a při nenalezení vloží nový řádek do `users`.
+  Prakticky to znamená:
+  - sync se nedělá při sign-up webhooku
+  - sync se nedělá při login callbacku
+  - sync se nedělá v middleware
+  - sync se dělá až když přihlášený user otevře `/dashboard`
+  Ukládá se jen `clerk_id`, `email`, `created_at` a `id`.
+  Rizika současného řešení:
+  - user, který nikdy neotevře `/dashboard`, se do DB nikdy nezapíše
+  - změna emailu v Clerk se nikdy nepropíše, protože sync řeší jen insert
+  - smazání usera v Clerk se nikdy nepropíše, protože není delete sync
+  - při dvou současných prvních vstupech může vzniknout race condition `select -> insert` a jedna větev může spadnout na unique constraint `clerk_id`
+  - když sync selže, může spadnout i render dashboardu, protože `await syncUser(user)` není obalený recovery logikou
+  Navrhnout nejjednodušší robustnější variantu pro skeleton:
+  - bezpečnější upsert místo `select-then-insert`
+  - update emailu při každém vstupu na dashboard
+  - případně rozhodnout, jestli má skeleton zůstat jen jako demo `best effort sync`, nebo jestli má přidat webhook-based synchronizaci
+
 
 
 ## Archiv
