@@ -81,7 +81,7 @@ Pokud přidáváš nové DB tabulky, vždy jim dej prefix podle projektu/appky, 
 Turso DB je sdílená napříč klony skeleton-app. Tabulky jiných projektů v ní můžou existovat.
 
 - **Nikdy nepoužívej `drizzle-kit push`** — v non-TTY shellu padne na interaktivní prompt a může poškodit cizí tabulky.
-- Po úpravě `schema.ts` spusť `pnpm db:generate` → vygeneruje SQL migraci do `drizzle/`.
+- Po úpravě `schema.ts` spusť `pnpm db:generate --name <popis>` (kebab-case, např. `--name add-posts-table`).
 - **Zkontroluj vygenerovaný SQL** — pokud obsahuje `DROP TABLE`, ručně ho z migračního souboru smaž (tabulku odeber ze schématu, ale v DB ji nech).
 - `pnpm db:migrate` → aplikuje migraci do DB.
 

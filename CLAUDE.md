@@ -53,9 +53,11 @@ Turso DB je sdílená napříč klony skeleton-app. Tabulky jiných projektů v 
 
 **Flow pro změny schématu:**
 1. Uprav `src/db/schema.ts`
-2. `pnpm db:generate` — vygeneruje SQL migraci do `drizzle/`
+2. `pnpm db:generate --name <popis>` — vygeneruje SQL migraci do `drizzle/` (např. `--name add-posts-table`)
 3. **Zkontroluj vygenerovaný SQL** — u sdílené DB ověř že migrace neobsahuje `DROP TABLE` (drizzle-kit ji může vygenerovat při odebrání tabulky ze schématu)
 4. `pnpm db:migrate` — aplikuje migraci do DB
+
+**Pojmenování migrací:** Vždy používej `--name` s popisným názvem (kebab-case). Bez `--name` drizzle-kit generuje náhodná slova (např. `mute_ender_wiggin`), která nic neříkají o obsahu migrace.
 
 **Pravidla:**
 - **Nepoužívej `drizzle-kit push`** — v non-TTY shellu padne na interaktivní prompt (rename detection) a může poškodit cizí tabulky.
