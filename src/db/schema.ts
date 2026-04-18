@@ -1,6 +1,6 @@
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-export const users = sqliteTable("users", {
+export const users = sqliteTable("skeletonapp_users", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   clerkId: text("clerk_id").notNull().unique(),
   email: text("email").notNull(),
@@ -23,7 +23,7 @@ export const rateLimits = sqliteTable(
       .$defaultFn(() => Math.floor(Date.now() / 1000)),
   },
   (table) => [
-    index("idx_rate_limits_lookup").on(
+    index("skeletonapp_idx_rate_limits_lookup").on(
       table.ip,
       table.endpoint,
       table.createdAt,
