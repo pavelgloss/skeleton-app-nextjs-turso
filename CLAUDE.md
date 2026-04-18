@@ -31,12 +31,15 @@ skeleton-app - Next.js 16 skeleton s Clerk auth, Turso DB, OpenAI a Resend.
 
 - TypeScript strict mode, žádné `any`
 - Používej import alias `@/`
+- Nové stránky patří do `src/app/`
+- Nové API route patří do `src/app/api/{name}/route.ts` (vždy přes `apiHandler`)
 - Nové DB tabulky přidávej do `src/db/schema.ts`
 - Sdílené API request/response typy dávej do `src/types/api.ts` a importuj z obou stran (UI i API routes)
 - Nové sdílené utility dávej do `src/lib/`
 - Nové React komponenty dávej do `src/components/`
+- Email šablony patří do `src/emails/`
 - Unit testy patří do `tests/unit/`, E2E do `tests/e2e/`
-- Před commitem spusť `pnpm lint` a `pnpm test`
+- Před větší změnou ověř stav přes `pnpm build`, po změnách spusť `pnpm lint` a `pnpm test`
 - Preferuj explicitní control flow a pojmenované mezikroky před zkrácenými operátory nebo "chytrým" zápisem, pokud je explicitní varianta čitelnější
 - Zvlášť u lazy init, singletonů, fallbacků a kódu se side effectem preferuj zápis, ze kterého je na první pohled vidět podmínka, pořadí kroků a okamžik inicializace (např. explicitní `if` místo `??=`)
 - Top-level kód v server modulech musí být bez side effectů a bez eager inicializace závislé na runtime prostředí

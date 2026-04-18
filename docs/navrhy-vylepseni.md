@@ -7,15 +7,15 @@
 
 | # | Název | Impact | Effort | Kategorie |
 |---|-------|--------|--------|-----------|
-| V1 | Smazat AGENTS.md, sloučit do CLAUDE.md | vysoký | nízký | REFACTOR |
-| V2 | Smazat load-env-files.ts wrapper | vysoký | nízký | REFACTOR |
+| ~~V1~~ | ~~Smazat AGENTS.md, sloučit do CLAUDE.md~~ | ~~vysoký~~ | ~~nízký~~ | ~~REFACTOR~~ ✅ |
+| ~~V2~~ | ~~Smazat load-env-files.ts wrapper~~ | ~~vysoký~~ | ~~nízký~~ | ~~REFACTOR~~ ✅ |
 | V3 | User sync: upsert místo select-then-insert | vysoký | nízký | FIX |
 | V4 | Odstranit Co-Authored-By z git historie | střední | nízký | INFRA |
 | V5 | Error boundary pro async failures | vysoký | střední | FEATURE |
 | V6 | Rate limiting na všechny API endpointy | střední | nízký | FIX |
 | V7 | drizzle-kit generate v non-TTY: skip rename detection | střední | střední | INFRA |
 | V8 | Rozhodnout Server Actions vs API routes | vysoký | střední | RESEARCH |
-| V9 | Smazat docs/findings2.md | nízký | nízký | CLEANUP |
+| ~~V9~~ | ~~Smazat docs/findings2.md~~ | ~~nízký~~ | ~~nízký~~ | ~~CLEANUP~~ ✅ |
 | V10 | Přidat loading states / Suspense boundaries | střední | střední | FEATURE |
 | V11 | Request ID v logování (trace propagation) | střední | střední | FEATURE |
 | V12 | Konfigurovatelné rate limit konstanty | nízký | nízký | REFACTOR |
