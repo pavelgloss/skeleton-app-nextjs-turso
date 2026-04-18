@@ -2,11 +2,6 @@
 
 > Střídám projekty. Tohle mi říká kde jsem skončil a co dělat dál.
 
-IN PROGRESS: jestli je dobře zdokumentováno pro ai agenty, že vždycky se projekt nějak jmenuje (ne genericky app, skeleton-app atd.) a že bude v env proměnných prefix pro databázové tabulky a žádný db skript nikdy nesahne na tabulky ve sdílené databázi , které mají jiný prefix (protože v nich jsou data k jiným aplikacím/projektům)
-
-proč vůbec existuje migrate.ts skript, není na to standardní npm drizzle "migrate" command? proč vymýšlíme kolo????
-
-migrační skripty se musí pojmenovávat sémanticky , ne náhodná slova
 
 
 ## Rozdělaná práce
@@ -71,6 +66,10 @@ Priorita: A (urgent) | B (normal) | C (nice-to-have)
   2. Ve standalone skriptech nahradit `import { loadEnvFiles }...` za `process.loadEnvFile(".env.local");`
   3. Z `src/db/index.ts` odebrat import a volání `loadEnvFiles()` — env načte buď Next.js nebo volající skript
   4. Totéž v `drizzle.config.ts`
+
+- [ ] **#16** `TODO` `A` `INFRA` — Odstranit Co-Authored-By: Claude ze všech commitů (i origin) + pravidlo
+  1. Přepsat historii (rebase/filter-branch) a odstranit `Co-Authored-By: Claude` trailer ze všech commit messages, včetně force-push na origin
+  2. Napsat pravidlo (CLAUDE.md / hook / nastavení), aby se při automatickém commitu nikdy nepřidával `Co-Authored-By` trailer
 
 - [ ] **#14** `TODO` `B` `RESEARCH` — Prověřit spolehlivost syncu Clerk user → DB
   Dnes se sync dělá jen on-demand při vstupu na `/dashboard`: `src/proxy.ts` route chrání, `src/app/dashboard/page.tsx` zavolá `currentUser()`, a pokud user existuje, `src/lib/user-sync.ts` udělá `select where clerk_id = ...` a při nenalezení vloží nový řádek do `users`.

@@ -91,3 +91,4 @@ Nepoužívej `dotenv` — Node 22 má `process.loadEnvFile()` built-in. Jeden so
 - Neobcházej typovou bezpečnost přes `any` nebo dvojité casty
 - Nepoužívej `drizzle-kit push` — viz sekce „Databáze — bezpečnost sdílené DB"
 - Nepoužívej `DROP TABLE` v žádném skriptu ani migraci
+- **Nepřidávej `Co-Authored-By` trailer do commit messages** — žádný co-author, žádný podpis AI agenta, commit message obsahuje jen samotnou zprávu
