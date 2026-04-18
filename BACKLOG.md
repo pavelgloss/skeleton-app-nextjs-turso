@@ -2,6 +2,13 @@
 
 > Střídám projekty. Tohle mi říká kde jsem skončil a co dělat dál.
 
+IN PROGRESS: jestli je dobře zdokumentováno pro ai agenty, že vždycky se projekt nějak jmenuje (ne genericky app, skeleton-app atd.) a že bude v env proměnných prefix pro databázové tabulky a žádný db skript nikdy nesahne na tabulky ve sdílené databázi , které mají jiný prefix (protože v nich jsou data k jiným aplikacím/projektům)
+
+proč vůbec existuje migrate.ts skript, není na to standardní npm drizzle "migrate" command? proč vymýšlíme kolo????
+
+migrační skripty se musí pojmenovávat sémanticky , ne náhodná slova
+
+
 ## Rozdělaná práce
 
 <!-- Poznámky pro "zítřejší já" - kde jsem skončil, co jsem řešil, jaké commandy,
@@ -58,6 +65,12 @@ Priorita: A (urgent) | B (normal) | C (nice-to-have)
 
 - [ ] **#13** `TODO` `B` `REFACTOR` — Zkonsolidovat `AGENTS.md` a `CLAUDE.md`
   Rozhodnout co má být canonical source pro agent instrukce, odstranit duplicity a srovnat případné rozpory mezi oběma soubory.
+
+- [ ] **#15** `TODO` `B` `REFACTOR` — Smazat env wrapper `load-env-files.ts` a sjednotit načítání env
+  1. Smazat `src/lib/load-env-files.ts`
+  2. Ve standalone skriptech nahradit `import { loadEnvFiles }...` za `process.loadEnvFile(".env.local");`
+  3. Z `src/db/index.ts` odebrat import a volání `loadEnvFiles()` — env načte buď Next.js nebo volající skript
+  4. Totéž v `drizzle.config.ts`
 
 - [ ] **#14** `TODO` `B` `RESEARCH` — Prověřit spolehlivost syncu Clerk user → DB
   Dnes se sync dělá jen on-demand při vstupu na `/dashboard`: `src/proxy.ts` route chrání, `src/app/dashboard/page.tsx` zavolá `currentUser()`, a pokud user existuje, `src/lib/user-sync.ts` udělá `select where clerk_id = ...` a při nenalezení vloží nový řádek do `users`.

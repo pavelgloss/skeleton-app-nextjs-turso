@@ -76,6 +76,19 @@ DB dotazy piš **výhradně Select API** stylem podle `docs/drizzle-query-guide.
 
 Pokud přidáváš nové DB tabulky, vždy jim dej prefix podle projektu/appky, aby názvy nebyly generické a nepletly se při dalším rozšiřování skeletonu.
 
+#### DB bezpečnost — sdílená Turso DB
+
+Turso DB je sdílená napříč klony skeleton-app. Tabulky jiných projektů v ní můžou existovat.
+
+- **Nikdy nepoužívej `drizzle-kit push`** — v non-TTY shellu padne na interaktivní prompt a může poškodit cizí tabulky.
+- Po úpravě `schema.ts` spusť `pnpm db:generate` → vygeneruje SQL migraci do `drizzle/`.
+- **Zkontroluj vygenerovaný SQL** — pokud obsahuje `DROP TABLE`, ručně ho z migračního souboru smaž (tabulku odeber ze schématu, ale v DB ji nech).
+- `pnpm db:migrate` → aplikuje migraci do DB.
+
+#### Mazání kódu — projít importy
+
+Při odebírání čehokoli ze schématu nebo sdíleného kódu grepni všechny importy (`grep -r "importovanýNázev" src/ tests/`) a smaž/uprav závislý kód včetně testů. Jinak build spadne na mrtvé importy.
+
 ### 4. Ověř že to funguje
 
 ```bash
@@ -116,6 +129,7 @@ Pravidla:
 - produkční deploy dělej přes `vercel --prod`, případně `vercel --prod --scope <scope>`
 - ve Vercel průvodci nastav `Directory: .`, `Modify settings: No`, `Connect Git: No`
 - env proměnné nahraj z `.env.local` přes `vercel env add <KEY> production --value <VALUE> --yes --force`; nikdy je neposílej přes `stdin`
+- **každý `vercel env add` spouštěj jako samostatný příkaz** — řetězení přes `&&` se zasekne (CLI drží stdin)
 - po nahrání env proměnných udělej nový produkční deploy pomocí `vercel --prod`
 
 Důvody:
@@ -143,6 +157,8 @@ Na konci uživateli napiš:
 - **Nikdy nevytvářej API route bez `apiHandler`**
 - **DB dotazy jen Select API** — žádné `db.query.*`, žádné `relations`
 - **Nové DB tabulky prefixuj podle projektu** — nepoužívej generické názvy tabulek bez kontextu appky
+- **Nikdy nepoužívej `drizzle-kit push`** — použij `db:generate` + `db:migrate`
+- **Nikdy nespouštěj migraci s `DROP TABLE`** — zkontroluj vygenerovaný SQL a DROP ručně smaž
 - **Nepoužívej `any`** — TypeScript strict mode
 - **Import alias `@/`** — vždy
 - **Piš česky** když komunikuješ s uživatelem

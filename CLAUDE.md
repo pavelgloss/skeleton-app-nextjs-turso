@@ -12,8 +12,8 @@ skeleton-app - Next.js 16 skeleton s Clerk auth, Turso DB, OpenAI a Resend.
 - `pnpm format` - Prettier zápis
 - `pnpm test` - Vitest unit testy
 - `pnpm test:e2e` - Playwright E2E testy
-- `pnpm db:push` - push schématu do DB
-- `pnpm db:migrate` - spuštění migrací
+- `pnpm db:generate` - vygeneruje SQL migraci z `schema.ts` do `drizzle/`
+- `pnpm db:migrate` - aplikuje migrace do Turso DB
 - `pnpm smoke` - rychlá kontrola po deployi
 
 ## Architektura
@@ -47,6 +47,37 @@ skeleton-app - Next.js 16 skeleton s Clerk auth, Turso DB, OpenAI a Resend.
 
 - Pravidla pro Drizzle ORM dotazy jsou v [`docs/drizzle-query-guide.md`](docs/drizzle-query-guide.md)
 
+## Databáze — schéma a migrace
+
+Turso DB je sdílená napříč klony skeleton-app. Tabulky jiných projektů v ní můžou existovat.
+
+**Flow pro změny schématu:**
+1. Uprav `src/db/schema.ts`
+2. `pnpm db:generate` — vygeneruje SQL migraci do `drizzle/`
+3. **Zkontroluj vygenerovaný SQL** — u sdílené DB ověř že migrace neobsahuje `DROP TABLE` (drizzle-kit ji může vygenerovat při odebrání tabulky ze schématu)
+4. `pnpm db:migrate` — aplikuje migraci do DB
+
+**Pravidla:**
+- **Nepoužívej `drizzle-kit push`** — v non-TTY shellu padne na interaktivní prompt (rename detection) a může poškodit cizí tabulky.
+- **Nikdy nespouštěj migraci s `DROP TABLE`** — tabulku odeber ze `schema.ts`, ale v DB ji nech. Pokud drizzle-kit vygeneruje DROP, ručně ho z migračního souboru smaž.
+- Nové tabulky prefixuj názvem projektu/appky.
+
+## Env proměnné — kdo je načítá
+
+| Kde | Kdo načte env? | Co dělat? |
+|---|---|---|
+| Next.js runtime (dev/build/API routes/pages) | Next.js sám | Nic — `process.env.X` funguje |
+| Standalone skripty (`scripts/*.ts`, `drizzle.config.ts`) | Nikdo — běží přes `tsx` mimo Next.js | `process.loadEnvFile(".env.local");` jako první řádek |
+| `src/db/index.ts` (lazy init) | Volající (Next.js nebo skript) | Nic — env už je načtený |
+| Produkce (Vercel) | Vercel env vars | Nic — žádný soubor |
+
+Nepoužívej `dotenv` — Node 22 má `process.loadEnvFile()` built-in. Jeden soubor `.env.local`, žádný wrapper.
+
+## Build — známé problémy
+
+- **Stale `.next` cache (Dropbox):** Dropbox synchronizuje `.next/` z předchozího dev runu a může držet soubory zamčené. Před buildem případně smazat `rm -rf .next/dev .next/types .next/cache`. V `~/Dropbox/rules.dropboxignore` přidat pravidlo pro `.next` a `node_modules`.
+- **Mazání kódu → projít importy:** Při odebírání čehokoli ze schématu nebo sdíleného kódu grepni všechny importy a smaž/uprav závislý kód včetně testů.
+
 ## Nedělej
 
 - Nepřidávej Zod
@@ -54,3 +85,5 @@ skeleton-app - Next.js 16 skeleton s Clerk auth, Turso DB, OpenAI a Resend.
 - Nepoužívej logování přes `console`
 - Nevytvářej API route bez `apiHandler`
 - Neobcházej typovou bezpečnost přes `any` nebo dvojité casty
+- Nepoužívej `drizzle-kit push` — viz sekce „Databáze — bezpečnost sdílené DB"
+- Nepoužívej `DROP TABLE` v žádném skriptu ani migraci
