@@ -84,6 +84,7 @@ Turso DB je sdílená napříč klony skeleton-app. Tabulky jiných projektů v 
 - Po úpravě `schema.ts` spusť `pnpm db:generate --name <popis>` (kebab-case, např. `--name add-posts-table`).
 - **Zkontroluj vygenerovaný SQL** — pokud obsahuje `DROP TABLE`, ručně ho z migračního souboru smaž (tabulku odeber ze schématu, ale v DB ji nech).
 - `pnpm db:migrate` → aplikuje migraci do DB.
+- **Nikdy nesahej na tabulky s cizím prefixem** — migrace, skripty i dotazy smí pracovat jen s tabulkami vlastního projektu. Tabulky jiných projektů obsahují produkční data.
 
 #### Mazání kódu — projít importy
 
@@ -98,12 +99,15 @@ pnpm build
 
 Obojí musí projít. Pokud ne, oprav chyby.
 
-### 5. Aktualizuj projektové soubory
+### 5. Pojmenuj projekt a aktualizuj soubory
 
-- `CLAUDE.md` — aktualizuj popis projektu a architektura pokud se výrazně změnila
-- `README.md` — aktualizuj název, popis a specifika appky
-- `package.json` — aktualizuj `name` a `description`
-- `src/app/layout.tsx` — aktualizuj `metadata` (title, description)
+Projekt se **musí přejmenovat** ze `skeleton-app` na konkrétní název appky (kebab-case, např. `recipe-tracker`). Název `skeleton-app`, `app`, `my-app` apod. nejsou přípustné — projekt musí mít vlastní identitu. Název se promítne do:
+
+- `package.json` — `name` a `description`
+- `CLAUDE.md` — popis projektu a architektura pokud se výrazně změnila
+- `README.md` — název, popis a specifika appky
+- `src/app/layout.tsx` — `metadata` (title, description)
+- **DB tabulky** — prefix nových tabulek musí odpovídat názvu projektu (např. `recipetracker_recipes`)
 
 ### 6. Commitni lokálně
 

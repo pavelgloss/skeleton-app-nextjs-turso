@@ -62,7 +62,8 @@ Turso DB je sdílená napříč klony skeleton-app. Tabulky jiných projektů v 
 **Pravidla:**
 - **Nepoužívej `drizzle-kit push`** — v non-TTY shellu padne na interaktivní prompt (rename detection) a může poškodit cizí tabulky.
 - **Nikdy nespouštěj migraci s `DROP TABLE`** — tabulku odeber ze `schema.ts`, ale v DB ji nech. Pokud drizzle-kit vygeneruje DROP, ručně ho z migračního souboru smaž.
-- Nové tabulky prefixuj názvem projektu/appky.
+- **Nové tabulky prefixuj názvem projektu** (např. `myapp_posts`, `myapp_comments`). Skeleton tabulky (`users`, `skeletonapp_rate_limits`) mají vlastní prefix/konvenci.
+- **Nikdy nesahej na tabulky s cizím prefixem** — DB je sdílená, tabulky jiných projektů obsahují produkční data. Migrace, skripty i dotazy smí pracovat jen s tabulkami vlastního projektu.
 
 ## Env proměnné — kdo je načítá
 
