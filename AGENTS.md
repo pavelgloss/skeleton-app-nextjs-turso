@@ -6,7 +6,7 @@
 2. Před větší změnou si ověř aktuální stav přes `pnpm build`, pokud je to rozumné.
 3. Po změnách spusť `pnpm lint` a `pnpm test`.
 4. Pokud přidáváš novou API route, použij `apiHandler`.
-5. Pokud měníš DB tabulky, uprav `src/db/schema.ts` a spusť `pnpm db:push`.
+5. Pokud měníš DB tabulky, uprav `src/db/schema.ts`, spusť `pnpm db:generate --name <popis>`, zkontroluj SQL a pak `pnpm db:migrate`.
 
 ## Pravidla pro soubory
 

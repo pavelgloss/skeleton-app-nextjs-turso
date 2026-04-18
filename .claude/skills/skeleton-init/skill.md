@@ -125,9 +125,7 @@ Projekt se **musí přejmenovat** ze `skeleton-app` na konkrétní název appky 
 git add -A
 git commit -m "feat: initialize [název appky] from skeleton
 
-[stručný popis co appka dělá a jaké funkce má]
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+[stručný popis co appka dělá a jaké funkce má]"
 ```
 
 Nikdy nepoužívej `git push` ani jiný push do remote repozitáře. Lokální commit je v pořádku, remote Git workflow není součástí tohohle skillu.
