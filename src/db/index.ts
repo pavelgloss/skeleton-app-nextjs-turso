@@ -1,13 +1,9 @@
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 
-import { loadEnvFiles } from "@/lib/load-env-files";
-
 import * as schema from "./schema";
 
 function createDb() {
-  loadEnvFiles();
-
   const databaseUrl = process.env.TURSO_DATABASE_URL;
   const authToken = process.env.TURSO_AUTH_TOKEN;
 
