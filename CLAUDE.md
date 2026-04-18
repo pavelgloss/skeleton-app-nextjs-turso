@@ -82,6 +82,7 @@ Nepoužívej `dotenv` — Node 22 má `process.loadEnvFile()` built-in. Jeden so
 
 ## Nedělej
 
+- Nepoužívej `npm` — vždy `pnpm` (projekt má `packageManager` + `preinstall` guard)
 - Nepřidávej Zod
 - Nepřidávej email/password autentizaci
 - Nepoužívej logování přes `console`
