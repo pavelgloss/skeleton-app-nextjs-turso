@@ -49,9 +49,31 @@ skeleton-app - Next.js 16 skeleton s Clerk auth, Turso DB, OpenAI a Resend.
 
 ## Databáze — schéma a migrace
 
-Turso DB je sdílená napříč klony skeleton-app. Tabulky jiných projektů v ní můžou existovat.
+### DB mód a prefix tabulek
 
-**Flow pro změny schématu:**
+Projekt podporuje dva módy práce s databází:
+
+| Mód | Kdy použít | Prefix tabulek | Příklad |
+|---|---|---|---|
+| **Sdílená DB** (default) | Více projektů v jedné DB (Supabase free, sdílený Turso) | `{projekt}_` | `skeletonapp_users` |
+| **Dedikovaná DB** | Každý projekt má vlastní DB (Turso free má neomezené DB) | žádný | `users` |
+
+**Aktuální mód: sdílená DB, prefix `skeletonapp_`**
+
+V sdíleném módu:
+- Všechny tabulky musí mít prefix `skeletonapp_` (nebo prefix konkrétního projektu po skeleton-init)
+- Nikdy nesahej na tabulky s cizím prefixem — obsahují produkční data jiných projektů
+- Při odebrání tabulky ze `schema.ts` ji v DB nech (žádný `DROP TABLE`)
+
+V dedikovaném módu:
+- Tabulky nemají prefix
+- Pravidla o cizích tabulkách neplatí (v DB jsou jen tvoje)
+- `DROP TABLE` je povolený (ale stále opatrně)
+
+Při přepnutí módu: uprav názvy tabulek v `schema.ts`, přegeneruj migrace, přejmenuj/vytvoř tabulky v DB.
+
+### Flow pro změny schématu
+
 1. Uprav `src/db/schema.ts`
 2. `pnpm db:generate --name <popis>` — vygeneruje SQL migraci do `drizzle/` (např. `--name add-posts-table`)
 3. **Zkontroluj vygenerovaný SQL** — u sdílené DB ověř že migrace neobsahuje `DROP TABLE` (drizzle-kit ji může vygenerovat při odebrání tabulky ze schématu)
@@ -61,9 +83,7 @@ Turso DB je sdílená napříč klony skeleton-app. Tabulky jiných projektů v 
 
 **Pravidla:**
 - **Nepoužívej `drizzle-kit push`** — v non-TTY shellu padne na interaktivní prompt (rename detection) a může poškodit cizí tabulky.
-- **Nikdy nespouštěj migraci s `DROP TABLE`** — tabulku odeber ze `schema.ts`, ale v DB ji nech. Pokud drizzle-kit vygeneruje DROP, ručně ho z migračního souboru smaž.
-- **Nové tabulky prefixuj názvem projektu** (např. `myapp_posts`, `myapp_comments`). Skeleton tabulky (`users`, `skeletonapp_rate_limits`) mají vlastní prefix/konvenci.
-- **Nikdy nesahej na tabulky s cizím prefixem** — DB je sdílená, tabulky jiných projektů obsahují produkční data. Migrace, skripty i dotazy smí pracovat jen s tabulkami vlastního projektu.
+- **Nikdy nespouštěj migraci s `DROP TABLE`** v sdíleném módu — tabulku odeber ze `schema.ts`, ale v DB ji nech. Pokud drizzle-kit vygeneruje DROP, ručně ho z migračního souboru smaž.
 
 ## Env proměnné — kdo je načítá
 

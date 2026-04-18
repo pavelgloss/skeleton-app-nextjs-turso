@@ -76,15 +76,25 @@ DB dotazy piš **výhradně Select API** stylem podle `docs/drizzle-query-guide.
 
 Pokud přidáváš nové DB tabulky, vždy jim dej prefix podle projektu/appky, aby názvy nebyly generické a nepletly se při dalším rozšiřování skeletonu.
 
-#### DB bezpečnost — sdílená Turso DB
+#### DB mód a prefix tabulek
 
-Turso DB je sdílená napříč klony skeleton-app. Tabulky jiných projektů v ní můžou existovat.
+Skeleton podporuje dva módy (viz CLAUDE.md sekce „DB mód a prefix tabulek"):
+- **Sdílená DB** (default) — tabulky mají prefix projektu, nesmíš sahat na cizí tabulky
+- **Dedikovaná DB** — tabulky bez prefixu
+
+Aktuální skeleton používá sdílený mód s prefixem `skeletonapp_`. Při skeleton-init:
+1. Zvol nový prefix podle názvu projektu (např. `recipetracker_`)
+2. Přejmenuj existující skeleton tabulky v `schema.ts` (nahraď `skeletonapp_` za nový prefix)
+3. Aktualizuj prefix v `CLAUDE.md` (řádek „Aktuální mód")
+4. V remote DB přejmenuj tabulky přes `ALTER TABLE ... RENAME TO ...`
+
+#### DB bezpečnost
 
 - **Nikdy nepoužívej `drizzle-kit push`** — v non-TTY shellu padne na interaktivní prompt a může poškodit cizí tabulky.
 - Po úpravě `schema.ts` spusť `pnpm db:generate --name <popis>` (kebab-case, např. `--name add-posts-table`).
 - **Zkontroluj vygenerovaný SQL** — pokud obsahuje `DROP TABLE`, ručně ho z migračního souboru smaž (tabulku odeber ze schématu, ale v DB ji nech).
 - `pnpm db:migrate` → aplikuje migraci do DB.
-- **Nikdy nesahej na tabulky s cizím prefixem** — migrace, skripty i dotazy smí pracovat jen s tabulkami vlastního projektu. Tabulky jiných projektů obsahují produkční data.
+- **Nikdy nesahej na tabulky s cizím prefixem** (v sdíleném módu) — tabulky jiných projektů obsahují produkční data.
 
 #### Mazání kódu — projít importy
 
@@ -104,10 +114,10 @@ Obojí musí projít. Pokud ne, oprav chyby.
 Projekt se **musí přejmenovat** ze `skeleton-app` na konkrétní název appky (kebab-case, např. `recipe-tracker`). Název `skeleton-app`, `app`, `my-app` apod. nejsou přípustné — projekt musí mít vlastní identitu. Název se promítne do:
 
 - `package.json` — `name` a `description`
-- `CLAUDE.md` — popis projektu a architektura pokud se výrazně změnila
+- `CLAUDE.md` — popis projektu, architektura, a **aktuální DB prefix** (řádek „Aktuální mód: sdílená DB, prefix `...`")
 - `README.md` — název, popis a specifika appky
 - `src/app/layout.tsx` — `metadata` (title, description)
-- **DB tabulky** — prefix nových tabulek musí odpovídat názvu projektu (např. `recipetracker_recipes`)
+- `src/db/schema.ts` — přejmenuj `skeletonapp_` prefix na nový (např. `recipetracker_`)
 
 ### 6. Commitni lokálně
 
